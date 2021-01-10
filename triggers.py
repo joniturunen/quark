@@ -1,4 +1,4 @@
 quarkCommands = {
-	'hello': '!ds9',
-	'rule': '!rule'
+    'hello': '!quark',
+    'rule': '!rule'
 }
