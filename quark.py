@@ -14,7 +14,7 @@ async def ping(ctx):
 
 @quark.command()
 async def p2(ctx, power: int):
-    await ctx.send(2**power)
+    await ctx.send(f'Two to the power of {power} equals to {2**power}')
 
 
 @quark.command()
