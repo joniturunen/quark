@@ -2,9 +2,20 @@
 
 > Nothing much here yet..
 
+You need to create `.env` file that holds your token string for the Discord connection.
+
+```txt
+DISCORD_TOKEN=<insert token here>
+BOT_DESC="I'm not just some venal Ferengi trying to take their money. I'm Quark, slayer of Klingons!"
+```
+
 ## Commands
 
-In the [triggers.py file](triggers.py)
+You can check the commands from [quark.py](quark.py).
+
+- ping
+- p2 (int)
+- rule (int)
 
 ## Rules of Acquistion
 
