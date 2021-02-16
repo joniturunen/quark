@@ -27,13 +27,17 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
-
     if message.content.startswith(quarkCommands["rule"]):
-        rand = random.randint(1, 126)
-        await message.channel.send(getRuleOfAcquisition(rand)["rule"] + '\nRule of acquisition #' + str(rand))
+        if ' ' in message.content:
+            rule_number = int(message.content.split(" ")[1])
+            await message.channel.send('**' + getRuleOfAcquisition(rule_number)["rule"] + '**\n> *Rule of acquisition number* ***' + str(rule_number) + '***')
+        else:
+            rand = random.randint(1, 126)
+            await message.channel.send('**' + getRuleOfAcquisition(rand)["rule"] + '**\n> *Rule of acquisition number* ***' + str(rand) + '***')
 
     if message.content.startswith(quarkCommands["hello"]):
-        await message.channel.send('Well hello there, what can I get you?\nJust kidding I dont get anything.')
+        await message.channel.send('I think I figured out why Humans don\'t like Ferengi.\nThe way I see it, Humans used to be a lot like Ferengi: greedy, acquisitive, interested only in profit. We\'re a constant reminder of a part of your past you\'d like to forget.\nHumans used to be a lot worse than the Ferengi: slavery, concentration camps, interstellar wars. We have nothing in our past that approaches that kind of barbarism. You see? We\'re nothing like you... we\'re better.')
 
 if __name__ == '__main__':
     client.run(TOKEN)
+
