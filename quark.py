@@ -1,5 +1,6 @@
 import typing
 import settings
+import ytsearcher
 from discord.ext import commands
 from acquisition import rules
 
@@ -10,6 +11,13 @@ quark = commands.Bot(command_prefix='!', description=qenv.desc)
 @quark.command()
 async def ping(ctx):
     await ctx.send('pong')
+
+
+@quark.command()
+async def yt(ctx, search_term: str):
+    yt = ytsearcher.YoutubeSearch()
+    video_id = yt.search(search_term)
+    await ctx.send(f'Youtube query with search term *{search_term}*". First hit was this:\nhttps://youtu.be/{video_id}')
 
 
 @quark.command()
