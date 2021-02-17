@@ -9,3 +9,4 @@ class Qenvs:
     def __init__(self):
         self.token = self.envs['DISCORD_TOKEN']
         self.desc = self.envs['BOT_DESC']
+        self.google_api_key = self.envs['GOOGLE_API_KEY']
