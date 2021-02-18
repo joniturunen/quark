@@ -1,11 +1,19 @@
 import typing
 import settings
 import ytsearcher
-from discord.ext import commands
+import discord
+from quarksbar import Rom
+from discord.ext import commands, tasks
 from acquisition import rules
+from influxdb import InfluxDBClient
 
+all_intents = discord.Intents.all()
 qenv = settings.Qenvs()
-quark = commands.Bot(command_prefix='!', description=qenv.desc)
+
+quark = commands.Bot(command_prefix='!',
+                     description=qenv.desc, intents=all_intents, owner_id=qenv.owner)
+influx_client = InfluxDBClient(
+    host=qenv.influxdb_host, port=qenv.influxdb_port)
 
 
 @quark.command()
@@ -21,14 +29,22 @@ async def yt(ctx, search_term: str):
 
 
 @quark.command()
+async def rom(ctx, server: typing.Optional[str] = qenv.server):
+    # Do some stuff with Rom, ask most played or something
+    await ctx.send('Not implemented yet')
+
+
+@quark.command()
 async def p2(ctx, power: int):
-    await ctx.send(f'Two to the power of {power} equals to {2**power}')
+    await ctx.send(f'>2 to the power of {power} equals to: **{2**power}**')
 
 
 @quark.command()
 async def rule(ctx, rule_number: typing.Optional[int] = 0):
     await ctx.send(rules(rule_number))
 
+# Call for rom to do duties and give him quark and bot_id
+rom = Rom(quark, qenv.bot_id, monitored_server='3sum')
 
 if __name__ == '__main__':
     try:
