@@ -32,8 +32,8 @@ class YoutubeSearch:
 
 
 if __name__ == '__main__':
-    # try:
-    yt = YoutubeSearch()
-    print(yt.search(sys.argv[1]))
-    # except:
-    #     print(f'Check you have GOOGLE_API_KEY in .env')
+    try:
+        yt = YoutubeSearch()
+        print(yt.search(sys.argv[1]))
+    except:
+        print(f'Check you have GOOGLE_API_KEY in .env')
