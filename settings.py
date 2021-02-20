@@ -15,6 +15,9 @@ class Qenvs:
         self.bot_id = int(self.envs['BOT_ID'])
         self.influxdb_host = self.envs['INFLUXDB_HOST']
         self.influxdb_port = int(self.envs['INFLUXDB_PORT'])
+        self.influxdb_user = self.envs['INFLUXDB_USER']
+        self.influxdb_pass = self.envs['INFLUXDB_PASS']
+        self.influxdb_name = self.envs['INFLUXDB_NAME']
 
 
 if __name__ == '__main__':
