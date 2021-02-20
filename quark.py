@@ -5,15 +5,14 @@ import discord
 from quarksbar import Rom
 from discord.ext import commands, tasks
 from acquisition import rules
-from influxdb import InfluxDBClient
 
 all_intents = discord.Intents.all()
 qenv = settings.Qenvs()
 
 quark = commands.Bot(command_prefix='!',
                      description=qenv.desc, intents=all_intents, owner_id=qenv.owner)
-influx_client = InfluxDBClient(
-    host=qenv.influxdb_host, port=qenv.influxdb_port)
+influx_info = {'host': qenv.influxdb_host, 'port': qenv.influxdb_port,
+               'user': qenv.influxdb_user, 'pass': qenv.influxdb_pass, 'db': qenv.influxdb_name}
 
 
 @quark.command()
@@ -44,7 +43,8 @@ async def rule(ctx, rule_number: typing.Optional[int] = 0):
     await ctx.send(rules(rule_number))
 
 # Call for rom to do duties and give him quark and bot_id
-rom = Rom(quark, qenv.bot_id, monitored_server='3sum')
+rom = Rom(quark, qenv.bot_id, monitored_server='3sum',
+          infdb=influx_info)
 
 if __name__ == '__main__':
     try:
