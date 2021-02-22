@@ -6,7 +6,7 @@ import settings
 import ytsearcher
 import discord
 from barchart import draw_horizontal_barchart, cleanup_file
-from rom_query import QuarksInventory
+from qintel import QuarksMonitors
 from quarksbar import Rom
 from discord.ext import commands, tasks
 from acquisition import rules
@@ -16,7 +16,7 @@ all_intents = discord.Intents.all()
 qenv = settings.Qenvs()
 influx_info = {'host': qenv.influxdb_host, 'port': qenv.influxdb_port,
                'user': qenv.influxdb_user, 'pass': qenv.influxdb_pass, 'db': qenv.influxdb_name}
-qm = QuarksInventory(infdb=influx_info)
+qm = QuarksMonitors(infdb=influx_info)
 
 quark = commands.Bot(command_prefix='!',
                      description=qenv.desc, intents=all_intents, owner_id=qenv.owner)
@@ -24,7 +24,10 @@ quark = commands.Bot(command_prefix='!',
 
 @quark.command()
 async def ping(ctx):
-    await ctx.send('pong')
+    current_guild = quark.get_guild(ctx.message.guild.id)
+    print(
+        f'User {ctx.message.author.name} called command `ping` at *{current_guild}*')
+    await ctx.send(f'pong  *{ctx.message.author.name}*')
 
 
 @quark.command()
@@ -44,8 +47,12 @@ async def played(ctx, user: typing.Optional[str] = None, server: typing.Optional
 
 
 @quark.command()
-async def bar(ctx, user: typing.Optional[str] = None, server: typing.Optional[str] = qenv.server):
-    totals = qm.calculate_all_activities(member_name=user)
+async def bar(ctx, user: typing.Optional[str] = None):
+    current_guild = quark.get_guild(ctx.message.guild.id)
+    print(
+        f'User {ctx.message.author.name} asked for barchart at *{current_guild}*')
+    totals = qm.calculate_all_activities(
+        member_name=user, current_guild=current_guild)
     barchart_file = draw_horizontal_barchart(totals, member=user)
     await ctx.send(f'Here\'s the latest info, but you didn\'t here it from me!\n')
     await ctx.send(file=discord.File(barchart_file))
