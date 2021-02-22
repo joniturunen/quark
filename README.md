@@ -2,12 +2,7 @@
 
 > Nothing much here yet..
 
-You need to create `.env` file that holds your token string for the Discord connection.
-
-```txt
-DISCORD_TOKEN=<insert token here>
-BOT_DESC="I'm not just some venal Ferengi trying to take their money. I'm Quark, slayer of Klingons!"
-```
+You need to create `.env` file that holds your token string etc for the Discord connection. Check the example from below.
 
 ### Todo
 
