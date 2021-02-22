@@ -37,9 +37,10 @@ class Rom(commands.Cog):
                     if member.id != int(self.quarks_id):
                         custom_status = True if isinstance(
                             member.activity, discord.activity.CustomActivity) else False
-                        activity = member.activity if custom_status is not True else None
-                        activity = member.activity.name.replace(
-                            "'", "`") if member.activity else None
+                        if custom_status is False:
+                            activity = member.activity
+                            activity = member.activity.name.replace(
+                                "'", "`") if member.activity else None
                         rfc3339 = datetime.now(timezone.utc).astimezone()
                         data = {'member_name': member.name, 'member_id': str(member.id),
                                 'member_activity': activity, 'member_server': guild.name, 'rfc3339': str(rfc3339)}
