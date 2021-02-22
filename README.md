@@ -61,3 +61,12 @@ MONITORING_INTERVAL_IN_SECONDS=5
 ```
 
 `ACTIVITY_FILTERS` is a | -separated list of things you would not want to monitor as game activity.
+
+## Running on Raspberry Pi (raspbian)
+
+You need few installations for things to work. Mostly stuff for barcharts to work. Oh yeah, and you need Docker with docker-compose aswell to run influxdb etc.
+
+```bash
+sudo apt-get install libopenjp2-7
+sudo apt-get install libatlas-base-dev
+```
