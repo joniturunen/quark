@@ -53,7 +53,8 @@ async def bar(ctx, user: typing.Optional[str] = None):
         f'User {ctx.message.author.name} asked for barchart at *{current_guild}*')
     totals = qm.calculate_all_activities(
         member_name=user, current_guild=current_guild)
-    barchart_file = draw_horizontal_barchart(totals, member=user)
+    barchart_file = draw_horizontal_barchart(
+        totals, current_guild=current_guild, member=user)
     await ctx.send(f'Here\'s the latest info, but you didn\'t here it from me!\n')
     await ctx.send(file=discord.File(barchart_file))
     cleanup_file(barchart_file)
