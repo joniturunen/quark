@@ -127,3 +127,4 @@ dmypy.json
 # My own exclusions
 .log
 mynotes.md
+/temp/*.png
