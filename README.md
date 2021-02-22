@@ -69,4 +69,5 @@ You need few installations for things to work. Mostly stuff for barcharts to wor
 ```bash
 sudo apt-get install libopenjp2-7
 sudo apt-get install libatlas-base-dev
+sudo apt install libtiff5
 ```
