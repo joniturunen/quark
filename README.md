@@ -1,6 +1,6 @@
 # Quark the Discord bot
 
-> Nothing much here yet..
+> Bot monitors channel member.activities and forms a time series entries to InfluxDB (docker)
 
 You need to create `.env` file that holds your token string etc for the Discord connection. Check the example from below.
 
@@ -9,6 +9,7 @@ You need to create `.env` file that holds your token string etc for the Discord 
 - need to switch to hours or make up a logic to show minutes when under treshold otherwise use hours
 - need a logic to handle several servers and generate stats from them
 - need a way to check if `!bar <member>` exists, if not set proper message content
+- put Quark in a container
 
 ## Commands
 
