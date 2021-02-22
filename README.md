@@ -46,7 +46,6 @@ Bot uses settings.py and a **qenv** class object to pass around the parameters. 
 DISCORD_TOKEN=<token for the bot to connect>
 DISCORD_SERVER=<server to monitor>
 ACTIVITY_FILTERS=Spotify|Visual Studio|!donate
-INVITE_LINK=<not implemented yet, but a link to your channel could be used>
 BOT_DESC="I'm not just some venal Ferengi trying to take their money. I'm Quark, slayer of Klingons!"
 BOT_OWNER_ID=<your discord id>
 BOT_OWNER_NAME=<your discord name>
@@ -57,7 +56,9 @@ INFLUXDB_NAME=quarksbar
 INFLUXDB_PORT=8086
 INFLUXDB_USER=quarkdb
 INFLUXDB_PASS=(p)assw0rd$
-MONITORING_INTERVAL_IN_SECONDS=5
+MONITORING_INTERVAL_IN_SECONDS=5'
+MONITORING_FILTER_SERVERS="das|test"
+BAR_COLORS="#9CC3CE|#BCC4BE|#C59D8B"
 ```
 
 `ACTIVITY_FILTERS` is a | -separated list of things you would not want to monitor as game activity.

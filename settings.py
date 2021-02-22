@@ -22,11 +22,17 @@ class Qenvs:
         self.influxdb_name = self.envs['INFLUXDB_NAME']
         self.monitor_interval = int(
             self.envs['MONITORING_INTERVAL_IN_SECONDS'])
+        self.do_not_monitor_these_servers = list(
+            self.envs['MONITORING_FILTER_SERVERS'].split('|'))
+        self.bar_colors = list(
+            self.envs['BAR_COLORS'].split('|'))
 
 
 if __name__ == '__main__':
     try:
         q = Qenvs()
-        print(q.envs)
+        # print(q.envs)
+        print(
+            f'{type(q.do_not_monitor_these_servers)}\n{q.do_not_monitor_these_servers}')
     except:
         print(f'Check that you have .env!')
