@@ -39,9 +39,9 @@ class QuarksInventory():
     def calc_activity_duration(self, activity, member_name=None, time_integer=7, time_unit='d'):
         # Returns minutes spent on activity
         if member_name is None:
-            minutes_query = f"SELECT (sum(a)*5)/60 as minutes FROM(SELECT count(member_activity) as a FROM \"{self.srv}\" WHERE(member_activity=\'{activity}\' AND time >= now() - {time_integer}{time_unit}))"
+            minutes_query = f"SELECT (sum(a)*{qenv.monitor_interval})/60 as minutes FROM(SELECT count(member_activity) as a FROM \"{self.srv}\" WHERE(member_activity=\'{activity}\' AND time >= now() - {time_integer}{time_unit}))"
         else:
-            minutes_query = f"SELECT (sum(a)*5)/60 as minutes FROM(SELECT count(member_activity) as a FROM \"{self.srv}\" WHERE(member_name= \'{member_name}\'  AND member_activity=\'{activity}\' AND time >= now() - {time_integer}{time_unit}))"
+            minutes_query = f"SELECT (sum(a)*{qenv.monitor_interval})/60 as minutes FROM(SELECT count(member_activity) as a FROM \"{self.srv}\" WHERE(member_name= \'{member_name}\'  AND member_activity=\'{activity}\' AND time >= now() - {time_integer}{time_unit}))"
         df_duration = self.influxdb_client.query(minutes_query).get(self.srv)
         minutes = df_duration.iloc[-1]['minutes'].round(
             2) if df_duration is not None else 0
