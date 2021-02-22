@@ -4,18 +4,17 @@ import os
 import matplotlib.pyplot as plt
 
 
-def draw_horizontal_barchart(totals, time_unit='min', member=False):
+def draw_horizontal_barchart(totals, bar_colors=['#7A85B8', '#61699A', '#303040'], time_unit='min', member=False):
 
-    values = list(totals.values())
+    y = list(totals.values())
     filename = './temp/'+str(uuid.uuid4())+'.png'
-    keys = list(totals.keys())
-    keys = ['\n'.join(wrap(l, 22)) for l in keys]
+    x = list(totals.keys())
+    x = ['\n'.join(wrap(l, 22)) for l in x]
 
     # fig, ax = plt.subplots()
     ax = plt.axes(box_aspect=0.5625)
-
-    ax.barh(keys, values, align='center',
-            color='white', edgecolor='darkgray')
+    ax.barh(x, y, align='center',
+            color=bar_colors, edgecolor='darkgray')
 
     ax.invert_yaxis()  # labels read top-to-bottom
     ax.set_xlabel(f"Played ({time_unit})", color='grey')
@@ -32,6 +31,9 @@ def draw_horizontal_barchart(totals, time_unit='min', member=False):
     ax.spines['left'].set_color('grey')
     ax.spines['right'].set_color('grey')
     ax.tick_params(color='grey', labelcolor='grey')
+
+    for i, v in enumerate(y):
+        ax.text(v - .25, i, str(v), color='white', fontweight='bold')
 
     plt.tight_layout()
     plt.savefig(filename, transparent=True, dpi=600)
