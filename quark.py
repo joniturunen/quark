@@ -1,18 +1,25 @@
+from time import sleep
 import typing
+
+from discord import message
 import settings
 import ytsearcher
 import discord
+from barchart import draw_horizontal_barchart, cleanup_file
+from rom_query import QuarksInventory
 from quarksbar import Rom
 from discord.ext import commands, tasks
 from acquisition import rules
 
+
 all_intents = discord.Intents.all()
 qenv = settings.Qenvs()
+influx_info = {'host': qenv.influxdb_host, 'port': qenv.influxdb_port,
+               'user': qenv.influxdb_user, 'pass': qenv.influxdb_pass, 'db': qenv.influxdb_name}
+qm = QuarksInventory(infdb=influx_info)
 
 quark = commands.Bot(command_prefix='!',
                      description=qenv.desc, intents=all_intents, owner_id=qenv.owner)
-influx_info = {'host': qenv.influxdb_host, 'port': qenv.influxdb_port,
-               'user': qenv.influxdb_user, 'pass': qenv.influxdb_pass, 'db': qenv.influxdb_name}
 
 
 @quark.command()
@@ -28,14 +35,26 @@ async def yt(ctx, search_term: str):
 
 
 @quark.command()
-async def rom(ctx, server: typing.Optional[str] = qenv.server):
-    # Do some stuff with Rom, ask most played or something
-    await ctx.send('Not implemented yet')
+async def played(ctx, user: typing.Optional[str] = None, server: typing.Optional[str] = qenv.server):
+    totals_dict = qm.calculate_all_activities(member_name=user)
+    message = ''
+    for key, value in totals_dict.items():
+        message += f'**{key}**: {value}minutes\n'
+    await ctx.send(f'> Play times since 21.2.2021\n{message}')
+
+
+@quark.command()
+async def bar(ctx, user: typing.Optional[str] = None, server: typing.Optional[str] = qenv.server):
+    totals = qm.calculate_all_activities(member_name=user)
+    barchart_file = draw_horizontal_barchart(totals, member=user)
+    await ctx.send(f'Here\'s the latest info, but you didn\'t here it from me!\n')
+    await ctx.send(file=discord.File(barchart_file))
+    cleanup_file(barchart_file)
 
 
 @quark.command()
 async def p2(ctx, power: int):
-    await ctx.send(f'>2 to the power of {power} equals to: **{2**power}**')
+    await ctx.send(f'> 2 to the power of {power} equals to: **{2**power}**')
 
 
 @quark.command()
