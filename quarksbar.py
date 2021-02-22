@@ -1,8 +1,12 @@
 from discord.ext import tasks, commands
 from influxdb import DataFrameClient
 from datetime import datetime, timezone
+from settings import Qenvs
 import discord
 import pandas as pd
+
+
+interval = Qenvs().monitor_interval
 
 
 class Rom(commands.Cog):
@@ -19,9 +23,8 @@ class Rom(commands.Cog):
     def cog_unload(self):
         self.monitor.cancel()
 
-    @tasks.loop(seconds=5.0)
+    @tasks.loop(seconds=interval)
     async def monitor(self):
-        # print(self.index)
         for guild in self.quark.guilds:
             if str(guild) == self.srv:
                 for member in guild.members:
@@ -29,7 +32,8 @@ class Rom(commands.Cog):
                         custom_status = True if isinstance(
                             member.activity, discord.activity.CustomActivity) else False
                         activity = member.activity if custom_status is not True else None
-                        activity = member.activity.name if member.activity else None
+                        activity = member.activity.name.replace(
+                            "'", "`") if member.activity else None
                         rfc3339 = datetime.now(timezone.utc).astimezone()
                         data = {'member_name': member.name, 'member_id': str(member.id),
                                 'member_activity': activity, 'member_server': self.srv, 'rfc3339': str(rfc3339)}
@@ -37,7 +41,6 @@ class Rom(commands.Cog):
                             data, index=[rfc3339])
                         # print(df)
                         self.store_to_db(df, self.srv)
-
         self.index += 1
 
     @monitor.before_loop
