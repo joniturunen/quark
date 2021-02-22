@@ -6,3 +6,4 @@ google-auth-oauthlib
 influxdb
 pandas
 asyncpg
+matplotlib
