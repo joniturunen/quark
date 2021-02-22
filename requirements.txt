@@ -7,3 +7,4 @@ influxdb
 pandas
 asyncpg
 matplotlib
+numpy
