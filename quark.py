@@ -69,8 +69,7 @@ async def rule(ctx, rule_number: typing.Optional[int] = 0):
     await ctx.send(rules(rule_number))
 
 # Call for rom to do duties and give him quark and bot_id
-rom = Rom(quark, qenv.bot_id, monitored_server='3sum',
-          infdb=influx_info)
+rom = Rom(quark, qenv.bot_id, infdb=influx_info)
 
 if __name__ == '__main__':
     try:
