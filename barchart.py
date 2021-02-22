@@ -4,7 +4,7 @@ import os
 import matplotlib.pyplot as plt
 
 
-def draw_horizontal_barchart(totals, current_guild=None, bar_colors=['#7A85B8', '#61699A', '#303040'], value_color='white', chart_text_color="#DAE4D0", time_unit='min', member=False):
+def draw_horizontal_barchart(totals, current_guild=None, bar_colors=['red', 'green', 'blue'], value_color='white', chart_text_color="#DAE4D0", time_unit='min', member=False):
     filename = './temp/'+str(uuid.uuid4())+'.png'
     y = list(totals.values())
     x = list(totals.keys())
@@ -39,7 +39,7 @@ def draw_horizontal_barchart(totals, current_guild=None, bar_colors=['#7A85B8', 
     ax.tick_params(color='#7289DA', labelcolor=chart_text_color)
 
     for i, v in enumerate(y):
-        ax.text(v - v/5, i, str(v), color=value_color, fontweight='bold')
+        ax.text(v - (v*0.15), i, str(v), color=value_color, fontweight='bold')
 
     plt.tight_layout()
     plt.savefig(filename, transparent=True, dpi=600)

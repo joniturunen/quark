@@ -54,7 +54,7 @@ async def bar(ctx, user: typing.Optional[str] = None):
     totals = qm.calculate_all_activities(
         member_name=user, current_guild=current_guild)
     barchart_file = draw_horizontal_barchart(
-        totals, current_guild=current_guild, member=user)
+        totals, current_guild=current_guild, member=user, bar_colors=qenv.bar_colors)
     await ctx.send(f'Here\'s the latest info from the past week!\n')
     await ctx.send(file=discord.File(barchart_file))
     cleanup_file(barchart_file)
