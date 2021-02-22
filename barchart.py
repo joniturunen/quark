@@ -4,11 +4,15 @@ import os
 import matplotlib.pyplot as plt
 
 
-def draw_horizontal_barchart(totals, bar_colors=['#7A85B8', '#61699A', '#303040'], time_unit='min', member=False):
-
-    y = list(totals.values())
+def draw_horizontal_barchart(totals, current_guild=None, bar_colors=['#7A85B8', '#61699A', '#303040'], value_color='white', chart_text_color="#DAE4D0", time_unit='min', member=False):
     filename = './temp/'+str(uuid.uuid4())+'.png'
+    y = list(totals.values())
     x = list(totals.keys())
+    # last value is the sum of all values, comment the line if you wish to see the total bar
+    y = y[:-1]
+    x = x[:-1]
+
+    # Following wraps long strings to several lines
     x = ['\n'.join(wrap(l, 22)) for l in x]
 
     # fig, ax = plt.subplots()
@@ -17,23 +21,25 @@ def draw_horizontal_barchart(totals, bar_colors=['#7A85B8', '#61699A', '#303040'
             color=bar_colors, edgecolor='darkgray')
 
     ax.invert_yaxis()  # labels read top-to-bottom
-    ax.set_xlabel(f"Played ({time_unit})", color='grey')
+    ax.set_xlabel(f"Played ({time_unit})", color='#ADBEC4')
     for label in (ax.get_xticklabels() + ax.get_yticklabels()):
-        label.set_fontsize(8)
+        label.set_fontsize(10)
 
     if member:
-        ax.set_title(f'Quarks intelligence survey for {member}', color='grey')
+        ax.set_title(
+            f'Quarks intelligence survey of {member}', color=chart_text_color)
     else:
-        ax.set_title('Quarks intelligence survey', color='grey')
+        ax.set_title(
+            f'Quarks intelligence survey: {current_guild}', color=chart_text_color)
 
     ax.spines['bottom'].set_color('grey')
     ax.spines['top'].set_color('grey')
     ax.spines['left'].set_color('grey')
     ax.spines['right'].set_color('grey')
-    ax.tick_params(color='grey', labelcolor='grey')
+    ax.tick_params(color='#7289DA', labelcolor=chart_text_color)
 
     for i, v in enumerate(y):
-        ax.text(v - .25, i, str(v), color='white', fontweight='bold')
+        ax.text(v - v/5, i, str(v), color=value_color, fontweight='bold')
 
     plt.tight_layout()
     plt.savefig(filename, transparent=True, dpi=600)
