@@ -55,7 +55,7 @@ async def bar(ctx, user: typing.Optional[str] = None):
         member_name=user, current_guild=current_guild)
     barchart_file = draw_horizontal_barchart(
         totals, current_guild=current_guild, member=user)
-    await ctx.send(f'Here\'s the latest info, but you didn\'t here it from me!\n')
+    await ctx.send(f'Here\'s the latest info from the past week!\n')
     await ctx.send(file=discord.File(barchart_file))
     cleanup_file(barchart_file)
 
