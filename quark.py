@@ -56,8 +56,8 @@ async def played(ctx, user: typing.Optional[str] = None,server: typing.Optional[
     for key, value in totals_dict.items():
         time_type = ' minutes' if value < 180 else ' hours'
         value = value if value < 180 else value/60
-        message += f'**{key}**: {round(value,2)}{time_type}\n'
-    await ctx.send(f'> **Played 📈 from past week from tracker from server** ***{current_guild}***:\n{message}')
+        message += f'__{key}__: {round(value,2)}{time_type}\n'
+    await ctx.send(f'> **Played 📈 from past week from tracker from server __{current_guild}__ !**:\n{message}')
 
 @quark.command()
 async def bar(ctx, user: typing.Optional[str] = None, server: typing.Optional[str] = None,):
@@ -69,7 +69,7 @@ async def bar(ctx, user: typing.Optional[str] = None, server: typing.Optional[st
             member_name=user, current_guild=current_guild)
         barchart_file = draw_horizontal_barchart(
             totals, current_guild=current_guild, member=user, bar_colors=qenv.bar_colors)
-        await ctx.send(f'**Here\'s the latest 📊 chart from the past week!**\n')
+        await ctx.send(f'**Here\'s the latest 📊 chart from the past week!**')
         await ctx.send(file=discord.File(barchart_file))
         cleanup_file(barchart_file)
     else:
