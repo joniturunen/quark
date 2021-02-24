@@ -39,7 +39,10 @@ async def yt(ctx, search_term: str):
 
 @quark.command()
 async def played(ctx, user: typing.Optional[str] = None, server: typing.Optional[str] = qenv.server):
-    totals_dict = qm.calculate_all_activities(member_name=user)
+    current_guild = quark.get_guild(ctx.message.guild.id)
+    print(
+        f'User {ctx.message.author.name} asked for barchart at *{current_guild}*')
+    totals_dict = qm.calculate_all_activities(member_name=user, current_guild=current_guild)
     message = ''
     for key, value in totals_dict.items():
         message += f'**{key}**: {value}minutes\n'
