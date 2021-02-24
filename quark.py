@@ -46,7 +46,8 @@ async def yt(ctx, search_term: str):
 
 
 @quark.command()
-async def played(ctx, server: typing.Optional[str] = None, user: typing.Optional[str] = None,):
+async def played(ctx, user: typing.Optional[str] = None,server: typing.Optional[str] = None):
+    user = None if user in ['all', 'All', 'kaikki', '*', 'everyone'] else user
     current_guild = quark.get_guild(ctx.message.guild.id) if server is None else server
     print(
         f'User {ctx.message.author.name} asked for played information for *{current_guild}*')
@@ -59,7 +60,8 @@ async def played(ctx, server: typing.Optional[str] = None, user: typing.Optional
     await ctx.send(f'> Played time on {current_guild}:\n{message}')
 
 @quark.command()
-async def bar(ctx, server: typing.Optional[str] = None, user: typing.Optional[str] = None):
+async def bar(ctx, user: typing.Optional[str] = None, server: typing.Optional[str] = None,):
+    user = None if user in ['all', 'All', 'kaikki', '*', 'everyone'] else user
     current_guild = quark.get_guild(ctx.message.guild.id) if server is None else server
     print(f'User {ctx.message.author.name} asked Rom for bar chart intel about *{current_guild}*')
     if ctx.message.author.id == quark.owner_id:   
