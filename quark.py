@@ -38,10 +38,10 @@ async def yt(ctx, search_term: str):
 
 
 @quark.command()
-async def played(ctx, user: typing.Optional[str] = None, server: typing.Optional[str] = qenv.server):
-    current_guild = quark.get_guild(ctx.message.guild.id)
+async def played(ctx, user: typing.Optional[str] = None, server: typing.Optional[str] = None):
+    current_guild = quark.get_guild(ctx.message.guild.id) if server is None else server
     print(
-        f'User {ctx.message.author.name} asked for played at *{current_guild}*')
+        f'User {ctx.message.author.name} asked for played information for *{current_guild}*')
     totals_dict = qm.calculate_all_activities(member_name=user, current_guild=current_guild)
     message = ''
     for key, value in totals_dict.items():
@@ -50,10 +50,10 @@ async def played(ctx, user: typing.Optional[str] = None, server: typing.Optional
 
 
 @quark.command()
-async def bar(ctx, user: typing.Optional[str] = None):
-    current_guild = quark.get_guild(ctx.message.guild.id)
+async def bar(ctx, user: typing.Optional[str] = None, server: typing.Optional[str] = None):
+    current_guild = quark.get_guild(ctx.message.guild.id) if server is None else server
     print(
-        f'User {ctx.message.author.name} asked for barchart at *{current_guild}*')
+        f'User {ctx.message.author.name} asked for barchart for *{current_guild}*')
     totals = qm.calculate_all_activities(
         member_name=user, current_guild=current_guild)
     barchart_file = draw_horizontal_barchart(
