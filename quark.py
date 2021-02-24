@@ -40,9 +40,13 @@ async def admin(ctx):
 
 @quark.command()
 async def yt(ctx, search_term: str):
-    yt = ytsearcher.YoutubeSearch()
-    video_id = yt.search(search_term)
-    await ctx.send(f'Youtube query with search term *{search_term}*. First hit was this:\nhttps://youtu.be/{video_id}')
+    print(f'{ctx.message.author.name} asked for command !yt')
+    if ctx.message.author.id == quark.owner_id:
+        yt = ytsearcher.YoutubeSearch()
+        video_id = yt.search(search_term)
+        await ctx.send(f'Youtube query with search term *{search_term}*. First hit was this:\nhttps://youtu.be/{video_id}')
+    else:
+        await ctx.send(f'This command is restricted for exclusive members only.')
 
 @quark.command()
 async def played(ctx, user: typing.Optional[str] = None,server: typing.Optional[str] = None):
