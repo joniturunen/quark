@@ -15,15 +15,16 @@ def draw_horizontal_barchart(totals, current_guild=None, bar_colors=['red', 'gre
     # Following wraps long strings to several lines
     x = ['\n'.join(wrap(l, 22)) for l in x]
 
+    ax = plt.axes()
     # fig, ax = plt.subplots()
-    ax = plt.axes(box_aspect=0.5625)
+    # ax = plt.axes(box_aspect=9/21)
     ax.barh(x, y, align='center',
             color=bar_colors, edgecolor='darkgray')
 
     ax.invert_yaxis()  # labels read top-to-bottom
     ax.set_xlabel(f"Played ({time_unit})", color='#ADBEC4')
     for label in (ax.get_xticklabels() + ax.get_yticklabels()):
-        label.set_fontsize(10)
+        label.set_fontsize(6)
 
     if member:
         ax.set_title(
@@ -39,7 +40,7 @@ def draw_horizontal_barchart(totals, current_guild=None, bar_colors=['red', 'gre
     ax.tick_params(color='#7289DA', labelcolor=chart_text_color)
 
     for i, v in enumerate(y):
-        ax.text(v - (v*0.15), i, str(v), color=value_color, fontweight='bold')
+        ax.text(v - (v*0.15), i, str(v), color=value_color, fontweight='bold', fontsize=7)
 
     plt.tight_layout()
     plt.savefig(filename, transparent=True, dpi=600)

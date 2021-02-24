@@ -40,14 +40,14 @@ class Rom(commands.Cog):
                         if custom_status is False:
                             activity = member.activity
                             activity = member.activity.name.replace(
-                                "'", "`") if member.activity else None
+                                "'", "`").replace("®", "") if member.activity else None
                         rfc3339 = datetime.now(timezone.utc).astimezone()
                         data = {'member_name': member.name, 'member_id': str(member.id),
                                 'member_activity': activity, 'member_server': guild.name, 'rfc3339': str(rfc3339)}
                         df = pd.DataFrame(
                             data, index=[rfc3339])
-                        # print(df)
-                        self.store_to_db(df, guild.name)
+                        if activity is not None:
+                            self.store_to_db(df, guild.name)
         self.index += 1
 
     @ monitor.before_loop
@@ -76,3 +76,4 @@ class Rom(commands.Cog):
         print(
             f"Bar is open and Rom is monitoring members at following servers: {', '.join(guilds)}")
         return guilds
+
