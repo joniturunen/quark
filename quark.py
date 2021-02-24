@@ -44,7 +44,6 @@ async def yt(ctx, search_term: str):
     video_id = yt.search(search_term)
     await ctx.send(f'Youtube query with search term *{search_term}*. First hit was this:\nhttps://youtu.be/{video_id}')
 
-
 @quark.command()
 async def played(ctx, user: typing.Optional[str] = None,server: typing.Optional[str] = None):
     user = None if user in ['all', 'All', 'kaikki', '*', 'everyone'] else user
@@ -52,12 +51,13 @@ async def played(ctx, user: typing.Optional[str] = None,server: typing.Optional[
     print(
         f'User {ctx.message.author.name} asked for played information for *{current_guild}*')
     totals_dict = qm.calculate_all_activities(member_name=user, current_guild=current_guild)
+    header = 'P' if user is None else str(user)+'`s p'
     message = ''
     for key, value in totals_dict.items():
         time_type = ' minutes' if value < 180 else ' hours'
         value = value if value < 180 else value/60
-        message += f'__{key}__: {round(value,2)}{time_type}\n'
-    await ctx.send(f'> **Played 📈 from past week from tracker from server __{current_guild}__ !**:\n{message}')
+        message += f' {key} ::: {round(value,2)}{time_type}\n'
+    await ctx.send(f'** {header}layed 📈 from past week tracked from server _{current_guild}_ !**:\n```{message}```')
 
 @quark.command()
 async def bar(ctx, user: typing.Optional[str] = None, server: typing.Optional[str] = None,):
