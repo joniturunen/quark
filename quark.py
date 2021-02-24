@@ -1,6 +1,5 @@
-from time import sleep
+from time import sleep 
 import typing
-
 from discord import message
 import settings
 import ytsearcher
@@ -31,6 +30,15 @@ async def ping(ctx):
 
 
 @quark.command()
+async def admin(ctx):
+    print(f'({ctx.message.author.name}) asked for command !admin')
+    if ctx.message.author.id == quark.owner_id:
+        await ctx.send(f'What will it be my dear friend **{qenv.owner_name}**?')
+    else:
+        await ctx.send(f'This command is restricted for exclusive members only.')
+
+
+@quark.command()
 async def yt(ctx, search_term: str):
     yt = ytsearcher.YoutubeSearch()
     video_id = yt.search(search_term)
@@ -53,16 +61,18 @@ async def played(ctx, server: typing.Optional[str] = None, user: typing.Optional
 @quark.command()
 async def bar(ctx, server: typing.Optional[str] = None, user: typing.Optional[str] = None):
     current_guild = quark.get_guild(ctx.message.guild.id) if server is None else server
-    print(
-        f'User {ctx.message.author.name} asked for barchart for *{current_guild}*')
-    totals = qm.calculate_all_activities(
-        member_name=user, current_guild=current_guild)
-    barchart_file = draw_horizontal_barchart(
-        totals, current_guild=current_guild, member=user, bar_colors=qenv.bar_colors)
-    await ctx.send(f'Here\'s the latest info from the past week!\n')
-    await ctx.send(file=discord.File(barchart_file))
-    cleanup_file(barchart_file)
-
+    print(f'User {ctx.message.author.name} asked Rom for bar chart intel about *{current_guild}*')
+    if ctx.message.author.id == quark.owner_id:   
+        totals = qm.calculate_all_activities(
+            member_name=user, current_guild=current_guild)
+        barchart_file = draw_horizontal_barchart(
+            totals, current_guild=current_guild, member=user, bar_colors=qenv.bar_colors)
+        await ctx.send(f'Here\'s the latest info from the past week!\n')
+        await ctx.send(file=discord.File(barchart_file))
+        cleanup_file(barchart_file)
+    else:
+        await ctx.send(f'This command is restricted for exclusive members only.')
+        print(f'User {ctx.message.author.name} was denied the right to use !bar command')
 
 @quark.command()
 async def p2(ctx, power: int):
