@@ -45,9 +45,10 @@ async def played(ctx, server: typing.Optional[str] = None, user: typing.Optional
     totals_dict = qm.calculate_all_activities(member_name=user, current_guild=current_guild)
     message = ''
     for key, value in totals_dict.items():
-        message += f'**{key}**: {value}minutes\n'
+        time_type = ' minutes' if value < 180 else ' hours'
+        value = value if value < 180 else value/60
+        message += f'**{key}**: {round(value,2)}{time_type}\n'
     await ctx.send(f'> Played time on {current_guild}:\n{message}')
-
 
 @quark.command()
 async def bar(ctx, server: typing.Optional[str] = None, user: typing.Optional[str] = None):

@@ -4,27 +4,32 @@ import os
 import matplotlib.pyplot as plt
 
 
-def draw_horizontal_barchart(totals, current_guild=None, bar_colors=['red', 'green', 'blue'], value_color='white', chart_text_color="#DAE4D0", time_unit='min', member=False):
+def draw_horizontal_barchart(totals, current_guild=None, bar_colors=['red', 'green', 'blue'], value_color='white', chart_text_color="#DAE4D0", time_unit='h', member=False):
     filename = './temp/'+str(uuid.uuid4())+'.png'
-    y = list(totals.values())
+    totals = dict(sorted(totals.items(), key=lambda item: item[1], reverse=True))
+    y_mins = list(totals.values())
+    y_hours = [round((value / 60),2) for value in y_mins]
+    y = y_hours
+
     x = list(totals.keys())
     # last value is the sum of all values, comment the line if you wish to see the total bar
-    y = y[:-1]
-    x = x[:-1]
+    y.pop(0)
+    x.pop(0)
 
     # Following wraps long strings to several lines
-    x = ['\n'.join(wrap(l, 22)) for l in x]
+    # x = ['\n'.join(wrap(l, 22)) for l in x]
 
     ax = plt.axes()
     # fig, ax = plt.subplots()
     # ax = plt.axes(box_aspect=9/21)
     ax.barh(x, y, align='center',
             color=bar_colors, edgecolor='darkgray')
-
+    ax.xaxis.grid(color='#585c66', linestyle='dashed')
+    ax.set_axisbelow(True)
     ax.invert_yaxis()  # labels read top-to-bottom
     ax.set_xlabel(f"Played ({time_unit})", color='#ADBEC4')
     for label in (ax.get_xticklabels() + ax.get_yticklabels()):
-        label.set_fontsize(6)
+        label.set_fontsize(8)
 
     if member:
         ax.set_title(
