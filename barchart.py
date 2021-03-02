@@ -14,8 +14,8 @@ def draw_horizontal_barchart(totals, current_guild=None, bar_colors=['red', 'gre
 
     x = list(totals.keys())
     # last value is the sum of all values, comment the line if you wish to see the total bar
-    y = y[-21:-1]
-    x = x[-21:-1]
+    y = y[1:21]
+    x = x[1:21]
 
     # Following wraps long strings to several lines
     # x = ['\n'.join(wrap(l, 22)) for l in x]
