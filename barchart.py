@@ -6,22 +6,21 @@ import matplotlib.pyplot as plt
 
 def draw_horizontal_barchart(totals, current_guild=None, bar_colors=['red', 'green', 'blue'], value_color='white', chart_text_color="#DAE4D0", time_unit='h', member=False):
     filename = './temp/'+str(uuid.uuid4())+'.png'
-    totals = dict(sorted(totals.items(), key=lambda item: item[1], reverse=True))
+    totals = dict(
+        sorted(totals.items(), key=lambda item: item[1], reverse=True))
     y_mins = list(totals.values())
-    y_hours = [round((value / 60),2) for value in y_mins]
+    y_hours = [round((value / 60), 2) for value in y_mins]
     y = y_hours
 
     x = list(totals.keys())
     # last value is the sum of all values, comment the line if you wish to see the total bar
-    y.pop(0)
-    x.pop(0)
+    y = y[-21:-1]
+    x = x[-21:-1]
 
     # Following wraps long strings to several lines
     # x = ['\n'.join(wrap(l, 22)) for l in x]
 
     ax = plt.axes()
-    # fig, ax = plt.subplots()
-    # ax = plt.axes(box_aspect=9/21)
     ax.barh(x, y, align='center',
             color=bar_colors, edgecolor='darkgray')
     ax.xaxis.grid(color='#585c66', linestyle='dashed')
@@ -45,7 +44,8 @@ def draw_horizontal_barchart(totals, current_guild=None, bar_colors=['red', 'gre
     ax.tick_params(color='#7289DA', labelcolor=chart_text_color)
 
     for i, v in enumerate(y):
-        ax.text(v - (v*0.15), i, str(v), color=value_color, fontweight='bold', fontsize=7)
+        ax.text(v - (v*0.15), i, str(v), color=value_color,
+                fontweight='bold', fontsize=7)
 
     plt.tight_layout()
     plt.savefig(filename, transparent=True, dpi=600)
