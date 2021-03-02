@@ -13,6 +13,7 @@ def draw_horizontal_barchart(totals, current_guild=None, bar_colors=['red', 'gre
     y = y_hours
 
     x = list(totals.keys())
+    total_playtime = y[0]
     # last value is the sum of all values, comment the line if you wish to see the total bar
     y = y[1:21]
     x = x[1:21]
@@ -26,7 +27,7 @@ def draw_horizontal_barchart(totals, current_guild=None, bar_colors=['red', 'gre
     ax.xaxis.grid(color='#585c66', linestyle='dashed')
     ax.set_axisbelow(True)
     ax.invert_yaxis()  # labels read top-to-bottom
-    ax.set_xlabel(f"Played ({time_unit})", color='#ADBEC4')
+    ax.set_xlabel(f"Played of total {total_playtime}{time_unit}", color='#ADBEC4')
     for label in (ax.get_xticklabels() + ax.get_yticklabels()):
         label.set_fontsize(8)
 
