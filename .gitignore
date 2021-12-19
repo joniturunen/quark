@@ -128,3 +128,6 @@ dmypy.json
 .log
 mynotes.md
 /temp/*.png
+
+# Backups
+/quark_db_backup/**
