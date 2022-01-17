@@ -20,13 +20,17 @@ class Qenvs:
         self.influxdb_user = self.envs['INFLUXDB_USER']
         self.influxdb_pass = self.envs['INFLUXDB_PASS']
         self.influxdb_name = self.envs['INFLUXDB_NAME']
-        self.monitor_interval = int(
-            self.envs['MONITORING_INTERVAL_IN_SECONDS'])
-        self.do_not_monitor_these_servers = list(
-            self.envs['MONITORING_FILTER_SERVERS'].split('|'))
-        self.bar_colors = list(
-            self.envs['BAR_COLORS'].split('|'))
-
+        self.monitor_interval = int(self.envs['MONITORING_INTERVAL_IN_SECONDS'])
+        self.tasking_interval = int(self.envs['TASKING_INTERVAL_IN_SECONDS'])
+        self.do_not_monitor_these_servers = list(self.envs['MONITORING_FILTER_SERVERS'].split('|'))
+        self.bar_colors = list(self.envs['BAR_COLORS'].split('|'))
+        self.report_to_channel = int(self.envs['TASKING_CHANNEL'])
+        self.report_to_guild = int(self.envs['TASKING_GUILD'])
+        self.influx_info = {'host': self.influxdb_host, 'port': self.influxdb_port,
+               'user': self.influxdb_user, 'pass': self.influxdb_pass, 'db': self.influxdb_name}
+        self.tasklist_weekday = int(self.envs['TASKLIST_ISO_WEEKDAY'])
+        self.tasklist_hour = int(self.envs['TASKLIST_HOUR'])
+        self.tasklist_monitored_guild = int(self.envs['TASKLIST_MONITORED_GUILD'])
 
 if __name__ == '__main__':
     try:
