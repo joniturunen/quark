@@ -72,3 +72,20 @@ sudo apt-get install libopenjp2-7
 sudo apt-get install libatlas-base-dev
 sudo apt install libtiff5
 ```
+
+## Backup influxdb data
+
+For running 1.8.x version of influxdb
+
+
+Run inside the container:
+
+```bash
+influxd backup -portable .
+```
+
+Then from outside the container:
+
+```bash
+docker cp influxdb_container:/opt/quark_db_backup /somepath/onyour/localmachine
+```
