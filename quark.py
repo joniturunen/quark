@@ -1,14 +1,13 @@
-from time import sleep 
-import typing
+from time import sleep
 from discord import message
-import settings
-import ytsearcher
-import discord
 from barchart import draw_horizontal_barchart, cleanup_file
 from qintel import QuarksMonitors
 from quarksbar import Rom
 from discord.ext import commands, tasks
 from acquisition import rules
+from datetime import datetime as dt
+import settings, ytsearcher
+import discord, typing
 
 
 all_intents = discord.Intents.all()
@@ -20,14 +19,12 @@ qm = QuarksMonitors(infdb=influx_info)
 quark = commands.Bot(command_prefix='!',
                      description=qenv.desc, intents=all_intents, owner_id=qenv.owner)
 
-
 @quark.command()
 async def ping(ctx):
     current_guild = quark.get_guild(ctx.message.guild.id)
     print(
         f'User {ctx.message.author.name} called command `ping` at *{current_guild}*')
     await ctx.send(f'pong  *{ctx.message.author.name}*')
-
 
 @quark.command()
 async def admin(ctx):
@@ -36,7 +33,6 @@ async def admin(ctx):
         await ctx.send(f'What will it be my dear friend **{qenv.owner_name}**?')
     else:
         await ctx.send(f'This command is restricted for exclusive members only.')
-
 
 @quark.command()
 async def yt(ctx, search_term: str):
@@ -68,6 +64,7 @@ async def bar(ctx, user: typing.Optional[str] = None, server: typing.Optional[st
     user = None if user in ['all', 'All', 'kaikki', '*', 'everyone'] else user
     current_guild = quark.get_guild(ctx.message.guild.id) if server is None else server
     print(f'User {ctx.message.author.name} asked Rom for bar chart intel about *{current_guild}*')
+    print(f'Guild type: {type(current_guild)}')
     if ctx.message.author.id == quark.owner_id:   
         totals = qm.calculate_all_activities(
             member_name=user, current_guild=current_guild)
@@ -82,8 +79,10 @@ async def bar(ctx, user: typing.Optional[str] = None, server: typing.Optional[st
 
 @quark.command()
 async def p2(ctx, power: int):
-    await ctx.send(f'> 2 to the power of {power} equals to: **{2**power}**')
-
+    if power < 1024 and power > 0:
+        await ctx.send(f'{power}² equals to: **{2**power}**')
+    else: 
+        await ctx.send(f"You ask me what is {power}²? I'm not a Star Fleet science officer! I can\'t give answers to such things!")
 
 @quark.command()
 async def rule(ctx, rule_number: typing.Optional[int] = 0):
